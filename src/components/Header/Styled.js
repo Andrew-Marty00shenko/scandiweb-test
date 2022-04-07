@@ -39,8 +39,41 @@ export const WrapperHeaderCart = styled.div`
         display: flex;
         cursor: pointer;
         margin-right: 20px;
+        position: relative;
+
         p{
             margin-right: 5px
+        }
+
+        .cart-currency-icon{
+            margin-bottom: 3px;
+        }
+
+        &-overlay{
+            position: absolute;
+            top: 30px;
+            left: -20px;
+            width: 114px;
+            height: 169px;
+            padding: 20px;
+
+            div{
+                display: flex;
+                align-items:center;
+
+                &:hover{
+                    opacity: .7;
+                }
+
+                p{
+                    font-weight: 500;
+                    font-size: 18px; 
+                }
+
+                p:nth-child(2){
+                    margin-bottom:22px;
+                }
+            }
         }
     }
 `;
