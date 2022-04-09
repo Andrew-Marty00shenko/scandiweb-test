@@ -1,11 +1,10 @@
 import { Component } from "react";
+import client from "../../apollo";
+import { Link } from "react-router-dom";
 
-import {
-    WrapperHeader,
-    WrapperHeaderCategories,
-    WrapperHeaderCart
-}
-    from "./Styled";
+import CATEGORIES_QUERY from "../../graphql/queries/categories";
+
+import "./Header.scss";
 
 import LogoIcon from "../../assets/images/a-logo.svg";
 import ArrowDownIcon from "../../assets/images/arrow-down.svg";
@@ -14,14 +13,26 @@ import DollarIcon from "../../assets/images/dollar.svg";
 import EurIcon from "../../assets/images/eur.svg";
 import JpyIcon from "../../assets/images/jpy.svg";
 
+
 class Header extends Component {
     constructor(props) {
         super(props);
         this.state = {
             currencyMenu: false,
-            activeCurrency: 0
+            activeCurrency: 0,
+            categories: []
         }
-    }
+    };
+
+    componentDidMount() {
+        client.query({
+            query: CATEGORIES_QUERY
+        }).then(({ data }) => {
+            this.setState({
+                categories: data.categories
+            });
+        })
+    };
 
     openCurrency = () => {
         this.setState({
@@ -36,17 +47,19 @@ class Header extends Component {
     };
 
     render() {
-        return <WrapperHeader>
-            <WrapperHeaderCategories>
-                <p>women</p>
-                <p>men</p>
-                <p>kids</p>
-            </WrapperHeaderCategories>
-            <div className="wrapper-header__logo">
+        return <header className="header">
+            <div className="header__categories">
+                {this.state.categories && this.state.categories.map((item, index) => {
+                    return <Link key={index} to={item.name}>
+                        {item.name}
+                    </Link>
+                })}
+            </div>
+            <div className="header__logo">
                 <img src={LogoIcon} alt="a-logo" />
             </div>
-            <WrapperHeaderCart>
-                <div className="wrapper-header__cart-currency"
+            <div className="header__cart">
+                <div className="header__cart-currency"
                     onClick={this.openCurrency}
                 >
                     <p>
@@ -69,7 +82,7 @@ class Header extends Component {
                             alt="arrow-down" />
                     </p>
                     {this.state.currencyMenu && (
-                        <div className="wrapper-header__cart-currency-overlay">
+                        <div className="header__cart-currency-overlay">
                             <div onClick={() => this.changeCurrency(0)}>
                                 <p>
                                     <img
@@ -109,8 +122,8 @@ class Header extends Component {
                 <div className="wrapper-header__cart-icon">
                     <img src={CartIcon} alt="cart-icon" />
                 </div>
-            </WrapperHeaderCart>
-        </WrapperHeader>
+            </div>
+        </header >
     }
 }
 
