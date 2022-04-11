@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import { Component } from "react";
 
 import CartIcon from "../../../assets/images/white-cart.svg";
@@ -11,16 +12,23 @@ class Product extends Component {
     };
 
     render() {
-        return <div className="categories__products-product"
+        return <div className={classNames("categories__products-product", {
+            "categories__products-product--instock": !this.props.inStock
+        })}
             onMouseEnter={() => this.setState({ showAddCartButton: true })}
             onMouseLeave={() => this.setState({ showAddCartButton: false })}
         >
+            {!this.props.inStock && (
+                <div className="categories__products-product-outofstock">
+                    out of stock
+                </div>
+            )}
             <div className="categories__products-product-image">
                 <img src={this.props.gallery[0]} alt="gallery" />
             </div>
             <div className="categories__products-product-name">
                 {this.props.name}
-                {this.state.showAddCartButton && (
+                {this.state.showAddCartButton && this.props.inStock && (
                     <div className="add-cart-btn">
                         <img src={CartIcon} alt="cart-btn" />
                     </div>
