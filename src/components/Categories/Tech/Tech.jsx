@@ -1,12 +1,12 @@
 import { Component } from "react";
-import client from "../../apollo";
+import client from "../../../apollo";
 
-import CATEGORY_QUERY from "../../graphql/queries/category";
-import Product from "./Product/Product";
+import CATEGORY_QUERY from "../../../graphql/queries/category";
+import Product from "../Product/Product";
 
-import "./Categories.scss";
+import "../Categories.scss";
 
-class Categories extends Component {
+class Tech extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -18,7 +18,9 @@ class Categories extends Component {
         client.query({
             query: CATEGORY_QUERY,
             variables: {
-                title: "all"
+                input: {
+                    title: "tech"
+                }
             }
         }).then(({ data }) => {
             this.setState({
@@ -44,4 +46,4 @@ class Categories extends Component {
     }
 }
 
-export default Categories;
+export default Tech;

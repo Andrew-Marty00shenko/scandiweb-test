@@ -12,10 +12,9 @@
         margin-top: 90px;
         display: flex;
         flex-wrap: wrap;
-        justify-content: space-between;
 
         &-product{
-            max-width: 386px;
+            width: 25%;
             margin-bottom: 115px;
             cursor: pointer;
             padding: 15px;
