@@ -22,11 +22,12 @@
                 color: #5ECE7B;
                 border-bottom: 1px solid #5ece7b;
             }
-        }
-    }
 
-    &__logo{
-        margin-right: 200px;
+            &.active{
+                color: #5ECE7B;
+                border-bottom: 1px solid #5ece7b;
+            }
+        }
     }
 
     &__cart{

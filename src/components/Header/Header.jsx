@@ -12,7 +12,7 @@ import CartIcon from "../../assets/images/cart.svg";
 import DollarIcon from "../../assets/images/dollar.svg";
 import EurIcon from "../../assets/images/eur.svg";
 import JpyIcon from "../../assets/images/jpy.svg";
-
+import classNames from "classnames";
 
 class Header extends Component {
     constructor(props) {
@@ -20,6 +20,7 @@ class Header extends Component {
         this.state = {
             currencyMenu: false,
             activeCurrency: 0,
+            activeHref: 0,
             categories: []
         }
     };
@@ -31,7 +32,7 @@ class Header extends Component {
             this.setState({
                 categories: data.categories
             });
-        })
+        });
     };
 
     openCurrency = () => {
@@ -46,11 +47,22 @@ class Header extends Component {
         });
     };
 
+    handleClickHref = (index) => {
+        this.setState({
+            activeHref: index
+        });
+    };
+
     render() {
         return <header className="header">
             <div className="header__categories">
                 {this.state.categories && this.state.categories.map((item, index) => {
-                    return <Link key={index} to={item.name}>
+                    return <Link
+                        className={classNames({ "active": this.state.activeHref === index })}
+                        key={index}
+                        to={item.name}
+                        onClick={() => this.handleClickHref(index)}
+                    >
                         {item.name}
                     </Link>
                 })}
