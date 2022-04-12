@@ -27,7 +27,7 @@ class Product extends Component {
                 <img src={this.props.gallery[0]} alt="gallery" />
             </div>
             <div className="categories__products-product-name">
-                {this.props.name}
+                <span>{this.props.brand} <br /> {this.props.name}</span>
                 {this.state.showAddCartButton && this.props.inStock && (
                     <div className="add-cart-btn">
                         <img src={CartIcon} alt="cart-btn" />
