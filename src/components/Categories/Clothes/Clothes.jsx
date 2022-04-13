@@ -1,8 +1,10 @@
 import { Component } from "react";
-import client from "../../../apollo";
+import { connect } from "react-redux";
 
 import CATEGORY_QUERY from "../../../graphql/queries/category";
+import client from "../../../apollo";
 import Product from "../Product/Product";
+import CartActions from "../../../redux/actions/cart";
 
 import "../Categories.scss";
 
@@ -38,7 +40,9 @@ class Clothes extends Component {
                 {this.state.categoryInfo.products?.map(item => {
                     return <Product
                         key={item.id}
-                        {...item}
+                        setCartData={this.props.setCartData}
+                        cartIncrementItems={this.props.cartIncrementItems}
+                        item={item}
                     />
                 })}
             </div>
@@ -46,4 +50,11 @@ class Clothes extends Component {
     }
 }
 
-export default Clothes;
+const mapDispatchToProps = dispatch => {
+    return {
+        setCartData: data => dispatch(CartActions.setCartData(data)),
+        cartIncrementItems: () => dispatch(CartActions.cartIncrementItems())
+    }
+}
+
+export default connect(null, mapDispatchToProps)(Clothes);

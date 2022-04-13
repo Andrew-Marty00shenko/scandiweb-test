@@ -1,8 +1,11 @@
 import { Component } from "react";
-import client from "../../apollo";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import classNames from "classnames";
 
 import CATEGORIES_QUERY from "../../graphql/queries/categories";
+import client from "../../apollo";
+import CartOverlay from "../CartOverlay/CartOverlay";
 
 import "./Header.scss";
 
@@ -12,7 +15,6 @@ import CartIcon from "../../assets/images/cart.svg";
 import DollarIcon from "../../assets/images/dollar.svg";
 import EurIcon from "../../assets/images/eur.svg";
 import JpyIcon from "../../assets/images/jpy.svg";
-import classNames from "classnames";
 
 class Header extends Component {
     constructor(props) {
@@ -21,7 +23,8 @@ class Header extends Component {
             currencyMenu: false,
             activeCurrency: 0,
             activeHref: 0,
-            categories: []
+            categories: [],
+            showCartOverlay: false
         }
     };
 
@@ -131,12 +134,29 @@ class Header extends Component {
                         </div>
                     )}
                 </div>
-                <div className="wrapper-header__cart-icon">
-                    <img src={CartIcon} alt="cart-icon" />
+                <div className="header__cart-icon">
+                    {this.props.countItems > 0 && (
+                        <div className="header__cart-icon-count">
+                            {this.props.countItems}
+                        </div>
+                    )}
+                    <img
+                        src={CartIcon}
+                        alt="cart-icon"
+                        onClick={() => this.setState({ showCartOverlay: !this.state.showCartOverlay })}
+                    />
+
+                    {this.state.showCartOverlay && <CartOverlay />}
                 </div>
             </div>
         </header >
     }
 }
 
-export default Header;
+const mapStateToProps = state => {
+    return {
+        countItems: state.cart.countItems
+    }
+}
+
+export default connect(mapStateToProps, null)(Header);

@@ -11,32 +11,39 @@ class Product extends Component {
         }
     };
 
+    handleClickAddToCart = (item) => {
+        this.props.setCartData(item);
+        this.props.cartIncrementItems();
+    };
+
     render() {
         return <div className={classNames("categories__products-product", {
-            "categories__products-product--instock": !this.props.inStock
+            "categories__products-product--instock": !this.props.item.inStock
         })}
             onMouseEnter={() => this.setState({ showAddCartButton: true })}
             onMouseLeave={() => this.setState({ showAddCartButton: false })}
         >
-            {!this.props.inStock && (
+            {!this.props.item.inStock && (
                 <div className="categories__products-product-outofstock">
                     out of stock
                 </div>
             )}
             <div className="categories__products-product-image">
-                <img src={this.props.gallery[0]} alt="gallery" />
+                <img src={this.props.item.gallery[0]} alt="gallery" />
             </div>
             <div className="categories__products-product-name">
-                <span>{this.props.brand} <br /> {this.props.name}</span>
-                {this.state.showAddCartButton && this.props.inStock && (
-                    <div className="add-cart-btn">
+                <span>{this.props.item.brand} <br /> {this.props.item.name}</span>
+                {this.state.showAddCartButton && this.props.item.inStock && (
+                    <div className="add-cart-btn"
+                        onClick={() => this.handleClickAddToCart(this.props.item)}
+                    >
                         <img src={CartIcon} alt="cart-btn" />
                     </div>
                 )}
             </div>
             <div className="categories__products-product-price">
-                <span>{this.props.prices[0].currency.symbol}</span>
-                <span>{this.props.prices[0].amount}</span>
+                <span>{this.props.item.prices[0].currency.symbol}</span>
+                <span>{this.props.item.prices[0].amount}</span>
             </div>
         </div>
     }
