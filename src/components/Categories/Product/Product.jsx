@@ -7,13 +7,21 @@ class Product extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            showAddCartButton: false
+            showAddCartButton: false,
+            count: this.props.item.count || 1
         }
     };
 
     handleClickAddToCart = (item) => {
-        this.props.setCartData(item);
-        this.props.cartIncrementItems();
+        this.setState({ count: this.state.count + 1 });
+        const objIndex = this.props.data.findIndex((obj => obj.id === item.id));
+        if (objIndex !== -1) {
+            this.props.data[objIndex].count = this.state.count;
+            this.props.cartIncrementItems();
+        } else {
+            this.props.setCartData({ ...item, count: 1 });
+            this.props.cartIncrementItems();
+        }
     };
 
     render() {

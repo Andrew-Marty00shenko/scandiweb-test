@@ -11,6 +11,16 @@ const CATEGORY_QUERY = gql`
                 inStock
                 gallery
                 description 
+                attributes{
+                    id
+                    name
+                    type
+                    items{
+                        displayValue
+                        value
+                        id
+                    }
+                }
                 prices{
                     currency{
                         label

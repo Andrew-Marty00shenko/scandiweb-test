@@ -1,6 +1,6 @@
 import { ApolloProvider } from "@apollo/client";
 import { Component } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import client from "./apollo";
 
 import All from "./components/Categories/All/All";
@@ -15,6 +15,9 @@ class App extends Component {
         <div className="wrapper">
           <Header />
           <Routes>
+            <Route
+              path="/"
+              element={<Navigate to="/all" />} />
             <Route
               path="/all"
               element={<All />}

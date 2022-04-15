@@ -1,6 +1,6 @@
 const initialState = {
     countItems: 0,
-    data: []
+    data: [],
 };
 
 export const cartReducer = (state = initialState, { type, payload }) => {
@@ -18,7 +18,15 @@ export const cartReducer = (state = initialState, { type, payload }) => {
         case "CART:CART_SET_DATA":
             return {
                 ...state,
-                data: [...state.data, payload]
+                data: [
+                    ...state.data,
+                    payload
+                ],
+            }
+        case "CART:CART_SET_FILTRED_DATA":
+            return {
+                ...state,
+                data: payload
             }
         default: return state;
     }

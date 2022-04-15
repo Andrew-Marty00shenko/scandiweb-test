@@ -8,6 +8,10 @@ const CartActions = {
     setCartData: data => ({
         type: "CART:CART_SET_DATA",
         payload: data
+    }),
+    setCartFiltredData: data => ({
+        type: "CART:CART_SET_FILTRED_DATA",
+        payload: data
     })
 };
 

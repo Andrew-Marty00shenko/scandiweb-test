@@ -43,10 +43,17 @@ class All extends Component {
                         setCartData={this.props.setCartData}
                         cartIncrementItems={this.props.cartIncrementItems}
                         item={item}
+                        data={this.props.data}
                     />
                 })}
             </div>
         </div>
+    }
+}
+
+const mapStateToProps = state => {
+    return {
+        data: state.cart.data
     }
 }
 
@@ -57,4 +64,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(null, mapDispatchToProps)(All);
+export default connect(mapStateToProps, mapDispatchToProps)(All);
