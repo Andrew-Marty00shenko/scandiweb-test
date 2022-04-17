@@ -135,9 +135,9 @@ class Header extends Component {
                     )}
                 </div>
                 <div className="header__cart-icon">
-                    {this.props.countItems > 0 && (
+                    {this.props.data.length > 0 && (
                         <div className="header__cart-icon-count">
-                            {this.props.countItems}
+                            {this.props.data.length}
                         </div>
                     )}
                     <img
@@ -155,7 +155,8 @@ class Header extends Component {
 
 const mapStateToProps = state => {
     return {
-        countItems: state.cart.countItems
+        countItems: state.cart.countItems,
+        data: state.cart.data
     }
 }
 

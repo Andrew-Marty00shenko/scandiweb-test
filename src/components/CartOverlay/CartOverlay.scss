@@ -19,4 +19,49 @@
             font-weight: 500;
         }
     }
+
+    &__total-count{
+        font-weight: 600;
+        font-size: 16px;
+        display: flex;
+        justify-content: space-between;
+        color: #1D1F22;
+        align-items: center;
+        margin-top: 40px;
+
+        p{
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        span{
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 500;
+            font-size: 16px;
+        }
+    }
+
+    &__buttons{
+        display: flex;
+        justify-content: space-between;
+
+        button{
+            text-transform: uppercase;
+            width: 140px;
+            height: 43px;
+            color: #1D1F22;
+            font-weight: 600;
+            font-size: 14px;
+            color:#1D1F22;
+            cursor: pointer;
+            border: 1px solid #1D1F22;
+
+            &:hover{
+                background: #5ECE7B;
+                color: #fff;
+                border: 0;
+            }
+        }
+    }
 }
