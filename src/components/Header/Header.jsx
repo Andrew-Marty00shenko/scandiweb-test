@@ -1,3 +1,4 @@
+import React from "react";
 import { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
@@ -25,7 +26,8 @@ class Header extends Component {
             activeHref: 0,
             categories: [],
             showCartOverlay: false
-        }
+        };
+        this.cartMenuRef = React.createRef();
     };
 
     componentDidMount() {
@@ -36,6 +38,20 @@ class Header extends Component {
                 categories: data.categories
             });
         });
+
+        document.addEventListener("click", this.handleClickOutside);
+    };
+
+    componentWillUnmount() {
+        document.removeEventListener("click", this.handleClickOutside);
+    };
+
+    handleClickOutside = (e) => {
+        if (this.cartMenuRef.current && !this.cartMenuRef.current.contains(e.target)) {
+            this.setState({
+                showCartOverlay: false
+            });
+        }
     };
 
     openCurrency = () => {
@@ -57,7 +73,10 @@ class Header extends Component {
     };
 
     render() {
-        return <header className="header">
+        return <header
+            className="header"
+            ref={this.cartMenuRef}
+        >
             <div className="header__categories">
                 {this.state.categories && this.state.categories.map((item, index) => {
                     return <Link
