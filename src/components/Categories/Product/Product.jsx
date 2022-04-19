@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import { Component } from "react";
+import { Link } from "react-router-dom";
 
 import CartIcon from "../../../assets/images/white-cart.svg";
 
@@ -37,7 +38,9 @@ class Product extends Component {
                 </div>
             )}
             <div className="categories__products-product-image">
-                <img src={this.props.item.gallery[0]} alt="gallery" />
+                <Link to={`/product/${this.props.item.id}`}>
+                    <img src={this.props.item.gallery[0]} alt="gallery" />
+                </Link>
             </div>
             <div className="categories__products-product-name">
                 <span>{this.props.item.brand} <br /> {this.props.item.name}</span>

@@ -16,9 +16,9 @@
         &-product{
             width: 25%;
             margin-bottom: 115px;
-            cursor: pointer;
             padding: 15px;
             position: relative;
+            color: #1D1F22;
 
             &--instock{
                 opacity: .5;
@@ -43,6 +43,7 @@
             &-image{
                 width: 356px;
                 height: 338px;
+                cursor: pointer;
 
                 img{
                     width: 356px;
@@ -68,6 +69,8 @@
                     position: absolute;
                     bottom: 25px;
                     right: 25px;
+                    z-index: 300;
+                    cursor: pointer;
 
                     &:hover{
                         background-color: rgb(89, 199, 89);
