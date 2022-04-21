@@ -3,6 +3,10 @@
     padding: 130px 110px 0px 70px;
 
     &__gallery{
+        max-height: 511px;
+        overflow-y: auto;
+        overflow-x: hidden;
+
         div{
             width: 87px;
             height: 87px;

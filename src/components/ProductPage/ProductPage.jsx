@@ -86,7 +86,7 @@ class ProductPage extends Component {
                     </div>
                 </div>
                 <button disabled={!this.state.productInfo.inStock}>
-                    ADD TO CART
+                    {!this.state.productInfo.inStock ? "OUT OF STOCK" : "ADD TO CART"}
                 </button>
                 <div className="product-page__info-desc"
                     dangerouslySetInnerHTML={{ __html: this.state.productInfo.description }}
