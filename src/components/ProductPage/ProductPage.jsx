@@ -76,15 +76,19 @@ class ProductPage extends Component {
                         >
                             <p> {item.name}:</p>
                             <div className="product-page__info-attributes-item-switch">
-                                {item.items.map(i => {
+                                {item.items.map((i, index) => {
                                     return <div
                                         key={i.id}
+                                        className={classNames("attribute", {
+                                            "selected-attribute": index === 0 && item.type !== "swatch",
+                                            "selected-color": index === 0 && item.type === "swatch",
+                                            "swatch": item.type === "swatch"
+                                        })}
                                         style={
                                             item.type === "swatch" ? {
                                                 backgroundColor: `${i.value}`,
                                             } : {}
                                         }
-                                        className={classNames({ "swatch": item.type === "swatch" })}
                                     >
                                         {item.type !== "swatch" ? i.value : null}
                                     </div>
