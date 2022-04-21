@@ -1,9 +1,11 @@
 import classNames from "classnames";
 import { Component } from "react";
+import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
 
 import client from "../../apollo";
 import PRODUCT_QUERY from "../../graphql/queries/product";
+import CartActions from "../../redux/actions/cart";
 
 import "./ProductPage.scss";
 
@@ -12,7 +14,8 @@ class ProductPage extends Component {
         super(props);
         this.state = {
             productInfo: {},
-            activeImage: null
+            activeImage: null,
+            count: null
         }
     };
 
@@ -23,11 +26,23 @@ class ProductPage extends Component {
                 id: this.props.params.id
             }
         }).then(({ data }) => {
+            const objIndex = this.props.data.findIndex((obj => obj.id === data.product.id));
             this.setState({
                 productInfo: data.product,
-                activeImage: data.product.gallery[0]
+                activeImage: data.product.gallery[0],
+                count: objIndex !== -1 ? this.props.data[objIndex].count : 1
             })
         });
+    };
+
+    addToCartItem = () => {
+        this.setState({ count: this.state.count + 1 });
+        const objIndex = this.props.data.findIndex((obj => obj.id === this.state.productInfo.id));
+        if (objIndex !== -1) {
+            this.props.data[objIndex].count = this.state.count;
+        } else {
+            this.props.setCartData({ ...this.state.productInfo, count: this.state.count });
+        }
     };
 
     render() {
@@ -85,7 +100,10 @@ class ProductPage extends Component {
                         {this.state.productInfo.prices && this.state.productInfo?.prices[0].amount}
                     </div>
                 </div>
-                <button disabled={!this.state.productInfo.inStock}>
+                <button
+                    disabled={!this.state.productInfo.inStock}
+                    onClick={this.addToCartItem}
+                >
                     {!this.state.productInfo.inStock ? "OUT OF STOCK" : "ADD TO CART"}
                 </button>
                 <div className="product-page__info-desc"
@@ -94,11 +112,25 @@ class ProductPage extends Component {
             </div>
         </div>
     }
-}
+};
 
-export default (props) => (
-    <ProductPage
-        {...props}
-        params={useParams()}
-    />
-);
+const mapStateToProps = state => {
+    return {
+        data: state.cart.data
+    }
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        setCartData: data => dispatch(CartActions.setCartData(data)),
+        cartIncrementItems: () => dispatch(CartActions.cartIncrementItems())
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)
+    ((props) => (
+        <ProductPage
+            {...props}
+            params={useParams()}
+        />
+    ));

@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import { Component } from "react";
 
 import "./Item.scss";
@@ -7,12 +8,12 @@ class Item extends Component {
         super(props);
         this.state = {
             showAddCartButton: false,
-            count: this.props.item.count
+            count: this.props.item.count,
         }
     };
 
     addItem = () => {
-        this.setState({ count: this.props.item.count + 1 })
+        this.setState({ count: this.props.item.count + 1 });
         const objIndex = this.props.data.findIndex((obj => obj.id === this.props.item.id));
         if (objIndex !== -1) {
             this.props.data[objIndex].count = this.state.count + 1;
@@ -21,7 +22,7 @@ class Item extends Component {
     }
 
     removeItem = () => {
-        this.setState({ count: this.props.item.count - 1 })
+        this.setState({ count: this.state.count - 1 });
         const objIndex = this.props.data.findIndex((obj => obj.id === this.props.item.id));
         if (objIndex !== -1) {
             this.props.data[objIndex].count = this.state.count - 1;
@@ -50,12 +51,19 @@ class Item extends Component {
                                     {item.name}
                                 </p>
                                 <div>
-                                    {item.items.map(i => {
-                                        return <div key={i.id} style={
-                                            item.type === "swatch" ? {
-                                                backgroundColor: `${i.value}`
-                                            } : {}
-                                        } >
+                                    {item.items.map((i, index) => {
+                                        return <div
+                                            key={i.id}
+                                            className={classNames("attribute", {
+                                                "selected-attribute": index === 0 && item.type !== "swatch",
+                                                "selected-color": index === 0 && item.type === "swatch",
+                                            })}
+                                            style={
+                                                item.type === "swatch" ? {
+                                                    backgroundColor: `${i.value}`,
+                                                } : {}
+                                            }
+                                        >
                                             {item.type !== "swatch" ? i.value : null}
                                         </div>
                                     })}

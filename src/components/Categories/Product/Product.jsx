@@ -9,18 +9,29 @@ class Product extends Component {
         super(props);
         this.state = {
             showAddCartButton: false,
-            count: this.props.item.count || 1
+            count: null
         }
     };
 
-    handleClickAddToCart = (item) => {
+    componentDidMount() {
+        this.setState({
+            count: this.props.item.count || 1
+        })
+    };
+
+    addToCartItem = (item) => {
         this.setState({ count: this.state.count + 1 });
-        const objIndex = this.props.data.findIndex((obj => obj.id === item.id));
-        if (objIndex !== -1) {
-            this.props.data[objIndex].count = this.state.count;
-            this.props.cartIncrementItems();
+        if (this.props.data?.length !== 0) {
+            const objIndex = this.props.data.findIndex((obj => obj.id === item.id));
+            if (objIndex !== -1) {
+                this.props.data[objIndex].count = this.state.count;
+                this.props.cartIncrementItems();
+            } else {
+                this.props.setCartData({ ...item, count: this.state.count });
+                this.props.cartIncrementItems();
+            }
         } else {
-            this.props.setCartData({ ...item, count: 1 });
+            this.props.setCartData({ ...item, count: this.state.count });
             this.props.cartIncrementItems();
         }
     };
@@ -46,7 +57,7 @@ class Product extends Component {
                 <span>{this.props.item.brand} <br /> {this.props.item.name}</span>
                 {this.state.showAddCartButton && this.props.item.inStock && (
                     <div className="add-cart-btn"
-                        onClick={() => this.handleClickAddToCart(this.props.item)}
+                        onClick={() => this.addToCartItem(this.props.item)}
                     >
                         <img src={CartIcon} alt="cart-btn" />
                     </div>
