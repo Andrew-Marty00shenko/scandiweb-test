@@ -4,11 +4,10 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import classNames from "classnames";
 
+import CURRENCIES_QUERY from "../../graphql/queries/currencies";
 import CATEGORIES_QUERY from "../../graphql/queries/categories";
 import client from "../../apollo";
 import CartOverlay from "../CartOverlay/CartOverlay";
-
-import "./Header.scss";
 
 import LogoIcon from "../../assets/images/a-logo.svg";
 import ArrowDownIcon from "../../assets/images/arrow-down.svg";
@@ -17,12 +16,15 @@ import DollarIcon from "../../assets/images/dollar.svg";
 import EurIcon from "../../assets/images/eur.svg";
 import JpyIcon from "../../assets/images/jpy.svg";
 
+import "./Header.scss";
+
 class Header extends Component {
     constructor(props) {
         super(props);
         this.state = {
             currencyMenu: false,
-            activeCurrency: 0,
+            currencies: [],
+            activeCurrency: null,
             activeHref: 0,
             categories: [],
             showCartOverlay: false
@@ -32,10 +34,20 @@ class Header extends Component {
 
     componentDidMount() {
         client.query({
-            query: CATEGORIES_QUERY
+            query: CATEGORIES_QUERY,
         }).then(({ data }) => {
             this.setState({
                 categories: data.categories
+            });
+        });
+
+        client.query({
+            query: CURRENCIES_QUERY
+        }).then(({ data }) => {
+            console.log(data)
+            this.setState({
+                currencies: data.currencies,
+                activeCurrency: data.currencies[0].symbol
             });
         });
 
@@ -60,9 +72,9 @@ class Header extends Component {
         });
     };
 
-    changeCurrency = (number) => {
+    changeCurrency = (item) => {
         this.setState({
-            activeCurrency: number,
+            activeCurrency: item.symbol,
         });
     };
 
@@ -73,8 +85,7 @@ class Header extends Component {
     };
 
     render() {
-        return <header
-            className="header"
+        return <header className="header"
             ref={this.cartMenuRef}
         >
             <div className="header__categories">
@@ -97,59 +108,32 @@ class Header extends Component {
                     onClick={this.openCurrency}
                 >
                     <p>
-                        <img
-                            src={this.state.activeCurrency === 0
-                                ? DollarIcon
-                                : this.state.activeCurrency === 1
-                                    ? EurIcon
-                                    : this.state.activeCurrency === 2
-                                        ? JpyIcon
-                                        : null
-                            }
-                            alt="dollar"
-                        />
+                        {this.state.activeCurrency}
                     </p>
                     <p>
                         <img
                             src={ArrowDownIcon}
-                            className="cart-currency-icon"
+                            className={classNames("cart-currency-icon", {
+                                "cart-currency-icon--active": this.state.currencyMenu
+                            })}
                             alt="arrow-down" />
                     </p>
                     {this.state.currencyMenu && (
                         <div className="header__cart-currency-overlay">
-                            <div onClick={() => this.changeCurrency(0)}>
-                                <p>
-                                    <img
-                                        src={DollarIcon}
-                                        alt="dollar"
-                                    />
-                                </p>
-                                <p>
-                                    USD
-                                </p>
-                            </div>
-                            <div onClick={() => this.changeCurrency(1)}>
-                                <p>
-                                    <img
-                                        src={EurIcon}
-                                        alt="dollar"
-                                    />
-                                </p>
-                                <p>
-                                    EUR
-                                </p>
-                            </div>
-                            <div onClick={() => this.changeCurrency(2)}>
-                                <p>
-                                    <img
-                                        src={JpyIcon}
-                                        alt="dollar"
-                                    />
-                                </p>
-                                <p>
-                                    JPY
-                                </p>
-                            </div>
+                            {this.state.currencies?.map((item, index) => {
+                                return this.state.activeCurrency !== item.symbol
+                                    ? <div key={index}
+                                        onClick={() => this.changeCurrency(item)}
+                                    >
+                                        <p>
+                                            {item.symbol}
+                                        </p>
+                                        <p>
+                                            {item.label}
+                                        </p>
+                                    </div>
+                                    : null
+                            })}
                         </div>
                     )}
                 </div>
