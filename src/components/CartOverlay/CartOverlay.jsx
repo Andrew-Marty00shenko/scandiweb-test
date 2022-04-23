@@ -17,7 +17,7 @@ class CartOverlay extends Component {
 
         return <div className="cart-overlay" >
             <h1>
-                My Bag, <span>{this.props.data.length} items</span>
+                My Bag, <span>{this.props.countItems} items</span>
             </h1>
             {this.props?.data.map((item, index) => {
                 return <Item key={index}

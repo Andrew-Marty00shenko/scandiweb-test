@@ -40,8 +40,10 @@ class ProductPage extends Component {
         const objIndex = this.props.data.findIndex((obj => obj.id === this.state.productInfo.id));
         if (objIndex !== -1) {
             this.props.data[objIndex].count = this.state.count;
+            this.props.cartIncrementItems();
         } else {
             this.props.setCartData({ ...this.state.productInfo, count: this.state.count });
+            this.props.cartIncrementItems();
         }
     };
 

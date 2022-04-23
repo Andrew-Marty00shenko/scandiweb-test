@@ -43,6 +43,7 @@ class Tech extends Component {
                         setCartData={this.props.setCartData}
                         cartIncrementItems={this.props.cartIncrementItems}
                         item={item}
+                        data={this.props.data}
                     />
                 })}
             </div>
@@ -50,11 +51,17 @@ class Tech extends Component {
     }
 }
 
+const mapStateToProps = state => {
+    return {
+        data: state.cart.data
+    }
+};
+
 const mapDispatchToProps = dispatch => {
     return {
         setCartData: data => dispatch(CartActions.setCartData(data)),
         cartIncrementItems: () => dispatch(CartActions.cartIncrementItems())
     }
-}
+};
 
-export default connect(null, mapDispatchToProps)(Tech);
+export default connect(mapStateToProps, mapDispatchToProps)(Tech);

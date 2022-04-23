@@ -55,13 +55,13 @@ const mapStateToProps = state => {
     return {
         data: state.cart.data
     }
-}
+};
 
 const mapDispatchToProps = dispatch => {
     return {
         setCartData: data => dispatch(CartActions.setCartData(data)),
         cartIncrementItems: () => dispatch(CartActions.cartIncrementItems())
     }
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(All);

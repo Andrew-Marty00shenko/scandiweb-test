@@ -42,7 +42,6 @@ class Header extends Component {
         client.query({
             query: CURRENCIES_QUERY
         }).then(({ data }) => {
-            console.log(data)
             this.setState({
                 currencies: data.currencies,
                 activeCurrency: data.currencies[0].symbol
@@ -145,7 +144,7 @@ class Header extends Component {
                 >
                     {this.props.data.length > 0 && (
                         <div className="header__cart-icon-count">
-                            {this.props.data.length}
+                            {this.props.countItems}
                         </div>
                     )}
                     <img
