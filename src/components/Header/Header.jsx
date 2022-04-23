@@ -12,9 +12,6 @@ import CartOverlay from "../CartOverlay/CartOverlay";
 import LogoIcon from "../../assets/images/a-logo.svg";
 import ArrowDownIcon from "../../assets/images/arrow-down.svg";
 import CartIcon from "../../assets/images/cart.svg";
-import DollarIcon from "../../assets/images/dollar.svg";
-import EurIcon from "../../assets/images/eur.svg";
-import JpyIcon from "../../assets/images/jpy.svg";
 
 import "./Header.scss";
 
@@ -30,6 +27,7 @@ class Header extends Component {
             showCartOverlay: false
         };
         this.cartMenuRef = React.createRef();
+        this.currencyMenuRef = React.createRef();
     };
 
     componentDidMount() {
@@ -64,6 +62,11 @@ class Header extends Component {
                 showCartOverlay: false
             });
         }
+        if (this.currencyMenuRef.current && !this.currencyMenuRef.current.contains(e.target)) {
+            this.setState({
+                currencyMenu: false
+            });
+        }
     };
 
     openCurrency = () => {
@@ -85,9 +88,7 @@ class Header extends Component {
     };
 
     render() {
-        return <header className="header"
-            ref={this.cartMenuRef}
-        >
+        return <header className="header"  >
             <div className="header__categories">
                 {this.state.categories && this.state.categories.map((item, index) => {
                     return <Link
@@ -104,8 +105,10 @@ class Header extends Component {
                 <img src={LogoIcon} alt="a-logo" />
             </div>
             <div className="header__cart">
-                <div className="header__cart-currency"
+                <div
+                    className="header__cart-currency"
                     onClick={this.openCurrency}
+                    ref={this.currencyMenuRef}
                 >
                     <p>
                         {this.state.activeCurrency}
@@ -119,7 +122,7 @@ class Header extends Component {
                             alt="arrow-down" />
                     </p>
                     {this.state.currencyMenu && (
-                        <div className="header__cart-currency-overlay">
+                        <div className="header__cart-currency-overlay" >
                             {this.state.currencies?.map((item, index) => {
                                 return this.state.activeCurrency !== item.symbol
                                     ? <div key={index}
@@ -137,7 +140,9 @@ class Header extends Component {
                         </div>
                     )}
                 </div>
-                <div className="header__cart-icon">
+                <div className="header__cart-icon"
+                    ref={this.cartMenuRef}
+                >
                     {this.props.data.length > 0 && (
                         <div className="header__cart-icon-count">
                             {this.props.data.length}
