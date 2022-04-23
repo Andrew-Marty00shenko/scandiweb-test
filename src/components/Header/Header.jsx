@@ -86,6 +86,12 @@ class Header extends Component {
         });
     };
 
+    clearActiveHref = () => {
+        this.setState({
+            activeHref: null
+        });
+    };
+
     render() {
         return <header className="header"  >
             <div className="header__categories">
@@ -153,18 +159,20 @@ class Header extends Component {
                         onClick={() => this.setState({ showCartOverlay: !this.state.showCartOverlay })}
                     />
 
-                    {this.state.showCartOverlay && <CartOverlay />}
+                    {this.state.showCartOverlay &&
+                        <CartOverlay clearActiveHref={this.clearActiveHref} />
+                    }
                 </div>
             </div>
         </header >
     }
-}
+};
 
 const mapStateToProps = state => {
     return {
         countItems: state.cart.countItems,
         data: state.cart.data
     }
-}
+};
 
 export default connect(mapStateToProps, null)(Header);

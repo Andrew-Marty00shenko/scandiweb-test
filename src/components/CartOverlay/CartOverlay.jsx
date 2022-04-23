@@ -1,5 +1,6 @@
 import { Component } from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
 import Item from "./Item/Item";
 import CartActions from "../../redux/actions/cart";
@@ -13,7 +14,7 @@ class CartOverlay extends Component {
 
         for (let i = 0; i < this.props.data.length; i++) {
             totalCount += this.props.data[i].prices[0].amount * this.props.data[i].count;
-        }
+        };
 
         return <div className="cart-overlay" >
             <h1>
@@ -38,19 +39,23 @@ class CartOverlay extends Component {
                 </span>
             </div>
             <div className="cart-overlay__buttons">
-                <button>View bag</button>
+                <Link to="/cart" onClick={this.props.clearActiveHref}>
+                    <button>
+                        View bag
+                    </button>
+                </Link>
                 <button>CHECK OUT</button>
             </div>
         </div>
     }
-}
+};
 
 const mapStateToProps = state => {
     return {
         countItems: state.cart.countItems,
         data: state.cart.data
     }
-}
+};
 
 const mapDispatchToProps = dispatch => {
     return {
@@ -58,6 +63,6 @@ const mapDispatchToProps = dispatch => {
         cartIncrementItems: () => dispatch(CartActions.cartIncrementItems()),
         setCartFiltredData: (data) => dispatch(CartActions.setCartFiltredData(data))
     }
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(CartOverlay);

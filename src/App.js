@@ -9,6 +9,7 @@ import Clothes from "./components/Categories/Clothes/Clothes";
 import Tech from "./components/Categories/Tech/Tech";
 import Header from "./components/Header/Header";
 import ProductPage from "./components/ProductPage/ProductPage";
+import Cart from "./components/Cart/Cart";
 
 class App extends Component {
   render() {
@@ -36,11 +37,15 @@ class App extends Component {
               path="/product/:id"
               element={<ProductPage />}
             />
+            <Route
+              path="/cart"
+              element={<Cart />}
+            />
           </Routes>
         </div>
       </BrowserRouter>
     </ApolloProvider>
   }
-}
+};
 
 export default App;

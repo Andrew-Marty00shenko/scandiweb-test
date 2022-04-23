@@ -19,7 +19,7 @@ class Item extends Component {
             this.props.data[objIndex].count = this.state.count + 1;
             this.props.cartIncrementItems();
         }
-    }
+    };
 
     removeItem = () => {
         this.setState({ count: this.state.count - 1 });
@@ -32,7 +32,7 @@ class Item extends Component {
             const newArr = this.props.data.filter(i => i.id !== this.props.item.id)
             this.props.setCartFiltredData(newArr);
         }
-    }
+    };
 
     render() {
         return <div className="cart-overlay-item">
@@ -83,6 +83,6 @@ class Item extends Component {
             </div>
         </div>
     }
-}
+};
 
 export default Item;

@@ -57,10 +57,18 @@
             cursor: pointer;
             border: 1px solid #1D1F22;
 
+            a{
+                color: #1D1F22;
+            }
+
             &:hover{
                 background: #5ECE7B;
                 color: #fff;
                 border: 0;
+
+                a{
+                    color: #fff;
+                }
             }
         }
     }
