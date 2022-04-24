@@ -15,12 +15,13 @@ class Product extends Component {
 
     componentDidMount() {
         this.setState({
-            count: this.props.item.count || 1
-        })
+            count: 1
+        });
     };
 
     addToCartItem = (item) => {
         this.setState({ count: this.state.count + 1 });
+
         if (this.props.data?.length !== 0) {
             const objIndex = this.props.data.findIndex((obj => obj.id === item.id));
             if (objIndex !== -1) {

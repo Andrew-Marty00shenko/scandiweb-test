@@ -1,43 +1,24 @@
 import { Component } from "react";
 import { connect } from "react-redux";
 
-import client from "../../../apollo";
-import CATEGORY_QUERY from "../../../graphql/queries/category";
 import Product from "../Product/Product";
 import CartActions from "../../../redux/actions/cart";
 
 import "../Categories.scss";
 
 class Tech extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            categoryInfo: {}
-        }
-    };
 
     componentDidMount() {
-        client.query({
-            query: CATEGORY_QUERY,
-            variables: {
-                input: {
-                    title: "tech"
-                }
-            }
-        }).then(({ data }) => {
-            this.setState({
-                categoryInfo: data.category
-            });
-        })
+        this.props.fetchItems("tech");
     };
 
     render() {
         return <div className="categories">
             <div className="categories__name">
-                {this.state.categoryInfo.name}
+                {this.props.techData.name}
             </div>
             <div className="categories__products">
-                {this.state.categoryInfo.products?.map(item => {
+                {this.props.techData?.products?.map(item => {
                     return <Product
                         key={item.id}
                         setCartData={this.props.setCartData}
@@ -53,14 +34,16 @@ class Tech extends Component {
 
 const mapStateToProps = state => {
     return {
-        data: state.cart.data
+        data: state.cart.data,
+        techData: state.cart.techData
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         setCartData: data => dispatch(CartActions.setCartData(data)),
-        cartIncrementItems: () => dispatch(CartActions.cartIncrementItems())
+        cartIncrementItems: () => dispatch(CartActions.cartIncrementItems()),
+        fetchItems: input => dispatch(CartActions.fetchItems(input))
     }
 };
 
