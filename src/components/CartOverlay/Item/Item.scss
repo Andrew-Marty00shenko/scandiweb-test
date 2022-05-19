@@ -67,6 +67,11 @@
                         text-align: center;
                         cursor: pointer;
 
+                        &:hover{
+                            background-color: #1D1F22;
+                            color: #fff;
+                        }
+
                         &.selected-attribute{
                             background-color: #1D1F22;
                             color: #fff;
@@ -83,7 +88,7 @@
 
     &__image{
         width: 105px;
-        height: 137px;
+        height: 110px;
 
         img{
             width: 100%;

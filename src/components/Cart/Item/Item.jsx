@@ -1,5 +1,6 @@
 import { Component } from "react";
-import classNames from "classnames";
+
+import Attributes from "./Attributes/Attributes";
 
 import ArrowLeftIcon from "../../../assets/images/arrow-left.svg";
 import ArrowRightIcon from "../../../assets/images/arrow-right.svg";
@@ -66,35 +67,11 @@ class Item extends Component {
                     <h2>{this.props.item.brand}</h2>
                     <h3>{this.props.item.name}</h3>
                     <p>
-                        {this.props.item.prices[0].currency.symbol}
-                        {this.props.item.prices[0].amount}
+                        {this.props.item.prices[this.props.currentCurrency].currency.symbol}
+                        {this.props.item.prices[this.props.currentCurrency].amount}
                     </p>
                     {this.props.item.attributes?.map(i => {
-                        return <div className="cart-items__item-attributes"
-                            key={i.id}
-                        >
-                            <p>
-                                {i.name}:
-                            </p>
-                            <div className="cart-items__item-attributes-switch">
-                                {i.items.map((p, index) => {
-                                    return <div key={p.id}
-                                        className={classNames("attribute", {
-                                            "selected-attribute": index === 0 && i.type !== "swatch",
-                                            "selected-color": index === 0 && i.type === "swatch",
-                                            "swatch": i.type === "swatch"
-                                        })}
-                                        style={
-                                            i.type === "swatch" ? {
-                                                backgroundColor: `${p.value}`,
-                                            } : {}
-                                        }
-                                    >
-                                        {i.type !== "swatch" ? p.value : null}
-                                    </div>
-                                })}
-                            </div>
-                        </div>
+                        return <Attributes key={i.id} i={i} />
                     })}
                 </div>
                 <div className="cart-items__item-left-count">
@@ -109,16 +86,16 @@ class Item extends Component {
                     src={this.props.item.gallery[this.state.imageIndex]}
                     alt="icon"
                 />
-                <div className="cart-items__item-gallery-switcher">
+                {this.props.item.gallery.length > 1 && <div className="cart-items__item-gallery-switcher">
                     <div onClick={this.onClickPrevImage}>
                         <img src={ArrowLeftIcon} alt="arrow-left" />
                     </div>
                     <div onClick={this.onClickNextImage}>
                         <img src={ArrowRightIcon} alt="arrow-right" />
                     </div>
-                </div>
+                </div>}
             </div>
-        </div>
+        </div >
     }
 }
 

@@ -8,6 +8,7 @@ import CURRENCIES_QUERY from "../../graphql/queries/currencies";
 import CATEGORIES_QUERY from "../../graphql/queries/categories";
 import client from "../../apollo";
 import CartOverlay from "../CartOverlay/CartOverlay";
+import CurrencyActions from "../../redux/actions/currency";
 
 import LogoIcon from "../../assets/images/a-logo.svg";
 import ArrowDownIcon from "../../assets/images/arrow-down.svg";
@@ -78,6 +79,11 @@ class Header extends Component {
         this.setState({
             activeCurrency: item.symbol,
         });
+
+        const findId = this.state.currencies.indexOf(item);
+        if (findId !== -1) {
+            this.props.setCurrency(findId);
+        }
     };
 
     handleClickHref = (index) => {
@@ -175,4 +181,10 @@ const mapStateToProps = state => {
     }
 };
 
-export default connect(mapStateToProps, null)(Header);
+const mapDispatchToProps = dispatch => {
+    return {
+        setCurrency: data => dispatch(CurrencyActions.setCurrency(data)),
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

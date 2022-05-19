@@ -41,12 +41,14 @@
             }
             
             &-image{
-                width: 356px;
+                width: 100%;
+                display: flex;
+                justify-content: center;
                 height: 338px;
                 cursor: pointer;
 
                 img{
-                    width: 356px;
+                    width: 300px;
                     height: 338px;
                 }
             }

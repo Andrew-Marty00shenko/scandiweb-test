@@ -1,11 +1,12 @@
-import classNames from "classnames";
 import { Component } from "react";
 import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
+import parse from "html-react-parser";
 
 import client from "../../apollo";
 import PRODUCT_QUERY from "../../graphql/queries/product";
 import CartActions from "../../redux/actions/cart";
+import Attributes from "./Attributes/Attributes";
 
 import "./ProductPage.scss";
 
@@ -37,6 +38,7 @@ class ProductPage extends Component {
 
     addToCartItem = () => {
         this.setState({ count: this.state.count + 1 });
+
         const objIndex = this.props.data.findIndex((obj => obj.id === this.state.productInfo.id));
         if (objIndex !== -1) {
             this.props.data[objIndex].count = this.state.count;
@@ -73,37 +75,14 @@ class ProductPage extends Component {
                 </h1>
                 <div className="product-page__info-attributes">
                     {this.state.productInfo?.attributes?.map(item => {
-                        return <div key={item.id}
-                            className="product-page__info-attributes-item"
-                        >
-                            <p> {item.name}:</p>
-                            <div className="product-page__info-attributes-item-switch">
-                                {item.items.map((i, index) => {
-                                    return <div
-                                        key={i.id}
-                                        className={classNames("attribute", {
-                                            "selected-attribute": index === 0 && item.type !== "swatch",
-                                            "selected-color": index === 0 && item.type === "swatch",
-                                            "swatch": item.type === "swatch"
-                                        })}
-                                        style={
-                                            item.type === "swatch" ? {
-                                                backgroundColor: `${i.value}`,
-                                            } : {}
-                                        }
-                                    >
-                                        {item.type !== "swatch" ? i.value : null}
-                                    </div>
-                                })}
-                            </div>
-                        </div>
+                        return <Attributes key={item.id} item={item} />
                     })}
                 </div>
                 <div className="product-page__info-price">
                     <p> price:</p>
                     <div>
-                        {this.state.productInfo.prices && this.state.productInfo?.prices[0].currency.symbol}
-                        {this.state.productInfo.prices && this.state.productInfo?.prices[0].amount}
+                        {this.state.productInfo.prices && this.state.productInfo?.prices[this.props.currentCurrency].currency.symbol}
+                        {this.state.productInfo.prices && this.state.productInfo?.prices[this.props.currentCurrency].amount}
                     </div>
                 </div>
                 <button
@@ -112,9 +91,9 @@ class ProductPage extends Component {
                 >
                     {!this.state.productInfo.inStock ? "OUT OF STOCK" : "ADD TO CART"}
                 </button>
-                <div className="product-page__info-desc"
-                    dangerouslySetInnerHTML={{ __html: this.state.productInfo.description }}
-                />
+                <div className="product-page__info-desc" >
+                    {parse(`${this.state.productInfo?.description}`)}
+                </div>
             </div>
         </div>
     }
@@ -122,7 +101,8 @@ class ProductPage extends Component {
 
 const mapStateToProps = state => {
     return {
-        data: state.cart.data
+        data: state.cart.data,
+        currentCurrency: state.currency.currentCurrency
     }
 };
 

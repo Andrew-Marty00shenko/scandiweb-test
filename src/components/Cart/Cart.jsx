@@ -12,7 +12,7 @@ class Cart extends Component {
         let totalCount = 0;
 
         for (let i = 0; i < this.props.data.length; i++) {
-            totalCount += this.props.data[i].prices[0].amount * this.props.data[i].count;
+            totalCount += this.props.data[i].prices[this.props.currentCurrency].amount * this.props.data[i].count;
         };
 
         return <div className="cart">
@@ -29,6 +29,7 @@ class Cart extends Component {
                         cartDecrementItems={this.props.cartDecrementItems}
                         cartIncrementItems={this.props.cartIncrementItems}
                         setCartFiltredData={this.props.setCartFiltredData}
+                        currentCurrency={this.props.currentCurrency}
                     />
                 })}
             </div>
@@ -39,7 +40,7 @@ class Cart extends Component {
                 Qty: <span>{this.props.countItems}</span>
             </div>
             <div className="cart-info cart-total">
-                Total: <span> {this.props.data[0]?.prices[0].currency.symbol}{totalCount.toFixed(2)}</span>
+                Total: <span> {this.props.data[0]?.prices[this.props.currentCurrency].currency.symbol}{totalCount.toFixed(2)}</span>
             </div>
             <button className="cart-order">
                 order
@@ -51,7 +52,8 @@ class Cart extends Component {
 const mapStateToProps = (state) => {
     return {
         data: state.cart.data,
-        countItems: state.cart.countItems
+        countItems: state.cart.countItems,
+        currentCurrency: state.currency.currentCurrency
     }
 };
 

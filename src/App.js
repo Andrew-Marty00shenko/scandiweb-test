@@ -1,12 +1,10 @@
 import { ApolloProvider } from "@apollo/client";
 import { Component } from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 
 import client from "./apollo";
 
-import All from "./components/Categories/All/All";
-import Clothes from "./components/Categories/Clothes/Clothes";
-import Tech from "./components/Categories/Tech/Tech";
+import Categories from "./components/Categories/Categories";
 import Header from "./components/Header/Header";
 import ProductPage from "./components/ProductPage/ProductPage";
 import Cart from "./components/Cart/Cart";
@@ -20,18 +18,11 @@ class App extends Component {
           <Routes>
             <Route
               path="/"
-              element={<Navigate to="/all" />} />
-            <Route
-              path="/all"
-              element={<All />}
+              element={<Navigate to="/all" />}
             />
             <Route
-              path="/clothes"
-              element={<Clothes />}
-            />
-            <Route
-              path="/tech"
-              element={<Tech />}
+              path="/:categoryName"
+              element={<Categories />}
             />
             <Route
               path="/product/:id"

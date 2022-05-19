@@ -73,7 +73,9 @@
                     margin-bottom: 21px;
 
                     &:hover{
-                        opacity: .7;
+                       p{
+                           font-weight: bold;
+                       }
                     }
 
                     p{

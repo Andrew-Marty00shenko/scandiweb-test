@@ -46,7 +46,7 @@ const CartActions = {
             if (input === "tech") {
                 dispatch(CartActions.setTechData(data.category));
             }
-        });
+        }).catch(err => console.log(err))
     }
 };
 

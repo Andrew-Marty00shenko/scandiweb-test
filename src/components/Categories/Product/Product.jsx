@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import { Component } from "react";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
 import CartIcon from "../../../assets/images/white-cart.svg";
@@ -22,15 +23,10 @@ class Product extends Component {
     addToCartItem = (item) => {
         this.setState({ count: this.state.count + 1 });
 
-        if (this.props.data?.length !== 0) {
-            const objIndex = this.props.data.findIndex((obj => obj.id === item.id));
-            if (objIndex !== -1) {
-                this.props.data[objIndex].count = this.state.count;
-                this.props.cartIncrementItems();
-            } else {
-                this.props.setCartData({ ...item, count: this.state.count });
-                this.props.cartIncrementItems();
-            }
+        const objIndex = this.props.data.findIndex((obj => obj.id === item.id));
+        if (objIndex !== -1) {
+            this.props.data[objIndex].count = this.state.count;
+            this.props.cartIncrementItems();
         } else {
             this.props.setCartData({ ...item, count: this.state.count });
             this.props.cartIncrementItems();
@@ -65,11 +61,17 @@ class Product extends Component {
                 )}
             </div>
             <div className="categories__products-product-price">
-                <span>{this.props.item.prices[0].currency.symbol}</span>
-                <span>{this.props.item.prices[0].amount}</span>
+                <span>{this.props.item.prices[this.props.currentCurrency].currency.symbol}</span>
+                <span>{this.props.item.prices[this.props.currentCurrency].amount}</span>
             </div>
         </div>
     }
 }
 
-export default Product;
+const mapStateToProps = state => {
+    return {
+        currentCurrency: state.currency.currentCurrency
+    }
+}
+
+export default connect(mapStateToProps, null)(Product);

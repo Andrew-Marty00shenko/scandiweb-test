@@ -1,5 +1,6 @@
-import classNames from "classnames";
 import { Component } from "react";
+
+import Attributes from "./Attributes/Attributes";
 
 import "./Item.scss";
 
@@ -8,7 +9,7 @@ class Item extends Component {
         super(props);
         this.state = {
             showAddCartButton: false,
-            count: this.props.item.count,
+            count: this.props.item.count
         }
     };
 
@@ -41,34 +42,12 @@ class Item extends Component {
                     <p>{this.props.item.brand}</p>
                     <p>{this.props.item.name}</p>
                     <div className="cart-overlay-item__info-price">
-                        <span>{this.props.item.prices[0].currency.symbol}</span>
-                        <span>{this.props.item.prices[0].amount}</span>
+                        <span>{this.props.item.prices[this.props.currentCurrency].currency.symbol}</span>
+                        <span>{this.props.item.prices[this.props.currentCurrency].amount}</span>
                     </div>
                     <div className="cart-overlay-item__info-attributes">
                         {this.props.item.attributes.map(item => {
-                            return <div key={item.id}>
-                                <p>
-                                    {item.name}
-                                </p>
-                                <div>
-                                    {item.items.map((i, index) => {
-                                        return <div
-                                            key={i.id}
-                                            className={classNames("attribute", {
-                                                "selected-attribute": index === 0 && item.type !== "swatch",
-                                                "selected-color": index === 0 && item.type === "swatch",
-                                            })}
-                                            style={
-                                                item.type === "swatch" ? {
-                                                    backgroundColor: `${i.value}`,
-                                                } : {}
-                                            }
-                                        >
-                                            {item.type !== "swatch" ? i.value : null}
-                                        </div>
-                                    })}
-                                </div>
-                            </div>
+                            return <Attributes key={item.id} item={item} />
                         })}
                     </div>
                 </div>

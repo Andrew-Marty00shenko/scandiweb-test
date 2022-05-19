@@ -13,7 +13,7 @@ class CartOverlay extends Component {
         let totalCount = 0;
 
         for (let i = 0; i < this.props.data.length; i++) {
-            totalCount += this.props.data[i].prices[0].amount * this.props.data[i].count;
+            totalCount += this.props.data[i].prices[this.props.currentCurrency].amount * this.props.data[i].count;
         };
 
         return <div className="cart-overlay" >
@@ -27,6 +27,7 @@ class CartOverlay extends Component {
                     cartDecrementItems={this.props.cartDecrementItems}
                     cartIncrementItems={this.props.cartIncrementItems}
                     setCartFiltredData={this.props.setCartFiltredData}
+                    currentCurrency={this.props.currentCurrency}
                 />
             })}
             <div className="cart-overlay__total-count">
@@ -34,7 +35,7 @@ class CartOverlay extends Component {
                     Total
                 </p>
                 <span>
-                    {this.props.data[0]?.prices[0].currency.symbol}
+                    {this.props.data[0]?.prices[this.props.currentCurrency].currency.symbol}
                     {totalCount.toFixed(2)}
                 </span>
             </div>
@@ -53,7 +54,8 @@ class CartOverlay extends Component {
 const mapStateToProps = state => {
     return {
         countItems: state.cart.countItems,
-        data: state.cart.data
+        data: state.cart.data,
+        currentCurrency: state.currency.currentCurrency
     }
 };
 
